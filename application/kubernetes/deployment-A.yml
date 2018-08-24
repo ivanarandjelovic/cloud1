@@ -18,7 +18,7 @@ kind: Deployment
 metadata:
   name: servicea-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: servicea-pods
@@ -35,7 +35,7 @@ spec:
     spec:
       containers:
       - name: servicea
-        image: ivanarandjelovic/servicea:v0.0.3-SNAPSHOT
+        image: ivanarandjelovic/service-a:v0.0.4-SNAPSHOT
         ports:
         - containerPort: 8082
 

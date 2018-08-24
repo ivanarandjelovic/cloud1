@@ -5,3 +5,5 @@
 .classpath
 build
 bin
+/.metadata/
+Servers

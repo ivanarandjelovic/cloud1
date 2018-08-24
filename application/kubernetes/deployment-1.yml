@@ -18,7 +18,7 @@ kind: Deployment
 metadata:
   name: service1-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: service1-pods

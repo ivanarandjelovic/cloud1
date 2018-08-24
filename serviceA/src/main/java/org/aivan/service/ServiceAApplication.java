@@ -37,7 +37,7 @@ public class ServiceAApplication {
 
 	@RequestMapping("/")
 	public String serviceA() {
-		log.info("serviceA method called! Configuration prop: "+configuration.getTestPropery());
+		log.info("serviceA method called! Configuration prop 2 : "+configuration.getTestProperty());
 		
 //		List<ServiceInstance> services = discoveryClient.getInstances(SERVICE1_NAME);
 //		if(services.size() == 0) {
@@ -55,8 +55,8 @@ public class ServiceAApplication {
 //		log.debug("service1 url is: "+service1Url.toString());
 		
 		RestTemplate restTemplate = restTemplateBuilder.build();
-		log.warn("using fixed service name1");
-		String response = restTemplate.getForObject("http://service1:8081/", String.class);
+		log.warn("using service1 URL: "+configuration.getService1Url());
+		String response = restTemplate.getForObject(configuration.getService1Url(), String.class);
 		
 		return "Hello from " + appName + "! I called other service and got: "+response;
 	}
