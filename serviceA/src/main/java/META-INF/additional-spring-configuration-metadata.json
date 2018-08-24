@@ -1,0 +1,9 @@
+{
+	"properties": [
+		{
+			"name": "service-a.service1Url",
+			"type": "java.lang.String",
+			"description": "URL at which service1 can be found"
+		}
+	]
+}
