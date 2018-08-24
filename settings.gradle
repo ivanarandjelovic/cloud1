@@ -9,4 +9,4 @@
 
 rootProject.name = 'cloud1'
 
-include 'service1'
+include 'service1', 'serviceA'

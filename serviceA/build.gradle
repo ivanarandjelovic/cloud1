@@ -36,18 +36,20 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
+def lowerCaseJarName = bootJar.baseName.toLowerCase();
+
 docker {
     dependsOn build
-    name "ivanarandjelovic/${bootJar.baseName}:v${version}"
+    name "ivanarandjelovic/${lowerCaseJarName}:v${version}"
     files bootJar.archivePath
     buildArgs(['JAR_FILE': "${bootJar.archiveName}"])
 }
 
 dockerRun {
-    name "${bootJar.baseName}"
-    image "ivanarandjelovic/${bootJar.baseName}:v${version}"
+    name "${lowerCaseJarName}"
+    image "ivanarandjelovic/${lowerCaseJarName}:v${version}"
 //    volumes 'hostvolume': '/containervolume'
-    ports '8081:8081'
+    ports '8082:8082'
     daemonize true
 //    env 'MYVAR1': 'MYVALUE1', 'MYVAR2': 'MYVALUE2'
 //    command 'sleep', '100'
