@@ -22,7 +22,7 @@ apply plugin: 'io.spring.dependency-management'
 
 
 group = 'org.aivan'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.3-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
@@ -33,6 +33,7 @@ repositories {
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.cloud:spring-cloud-starter-kubernetes:0.3.0.RELEASE')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 

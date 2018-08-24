@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service1
+  labels:
+    app: service1
+spec:
+  type: NodePort
+  ports:
+  - port: 8081
+    nodePort: 30001
+    protocol: TCP
+  selector:
+    app: service1-pods
+---    
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service1-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: service1-pods
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: service1-pods
+    spec:
+      containers:
+      - name: service1
+        image: ivanarandjelovic/service1:v0.0.2-SNAPSHOT
+        ports:
+        - containerPort: 8081
+

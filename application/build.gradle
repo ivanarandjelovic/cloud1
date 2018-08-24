@@ -1,0 +1,27 @@
+buildscript {
+	ext {
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+	}
+}
+
+plugins {
+}
+
+apply plugin: 'eclipse'
+
+
+group = 'org.aivan'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+}
+
