@@ -27,6 +27,9 @@ public class ServiceAApplication {
 	@Autowired
 	RestTemplateBuilder restTemplateBuilder;
 	
+	@Autowired
+	ServiceAConfiguration configuration;
+	
 	public static void main(String[] args) {
 		log.info("Application starting ...");
 		SpringApplication.run(ServiceAApplication.class, args);
@@ -34,7 +37,7 @@ public class ServiceAApplication {
 
 	@RequestMapping("/")
 	public String serviceA() {
-		log.info("serviceA method called!");
+		log.info("serviceA method called! Configuration prop: "+configuration.getTestPropery());
 		
 //		List<ServiceInstance> services = discoveryClient.getInstances(SERVICE1_NAME);
 //		if(services.size() == 0) {

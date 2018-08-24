@@ -1,0 +1,9 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: service-a
+data:
+  testProperty: test1value-A
+  service1Url: service1URL value-A  
+  serviceA.testProperty: test1value
+  serviceA.service1Url: service1URL value
