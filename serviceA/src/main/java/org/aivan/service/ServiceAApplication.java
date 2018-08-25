@@ -58,6 +58,6 @@ public class ServiceAApplication {
 		log.warn("using service1 URL: "+configuration.getService1Url());
 		String response = restTemplate.getForObject(configuration.getService1Url(), String.class);
 		
-		return "Hello from " + appName + "! I called other service and got: "+response;
+		return "Hello 2 from " + appName + "! I called other service and got: "+response;
 	}
 }

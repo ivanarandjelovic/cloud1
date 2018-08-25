@@ -24,7 +24,7 @@ public class Service1Application {
 
 	@RequestMapping("/")
 	public String service1() {
-		log.info("service1 method called!");
+		log.info("service1 method called 2!");
 		return "Hello from " + appName + "!";
 	}
 }

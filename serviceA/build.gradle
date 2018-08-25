@@ -35,6 +35,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.cloud:spring-cloud-starter-kubernetes:0.3.0.RELEASE')
 	compile('org.springframework.cloud:spring-cloud-kubernetes-config:0.3.0.RELEASE')
+	compile('org.springframework.cloud:spring-cloud-starter-zipkin:2.0.1.RELEASE')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 

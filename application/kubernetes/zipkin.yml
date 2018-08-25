@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: zipkin-server
+  name: zipkin
   labels:
-    app: zipkin-server
+    app: zipkin
 spec:
   type: NodePort
   ports:
@@ -16,7 +16,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: zipkin-server
+  name: zipkin
 spec:
   replicas: 1
   selector:
@@ -34,8 +34,10 @@ spec:
         app: zipkin-pods
     spec:
       containers:
-      - name: zipkin-server
+      - name: zipkin
         image: openzipkin/zipkin
         ports:
         - containerPort: 9411
-
+#        env:
+#        - name: JAVA_OPTS
+#          value: "-Dlogging.level.zipkin=DEBUG -Dlogging.level.zipkin2=DEBUG"
