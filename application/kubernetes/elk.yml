@@ -8,15 +8,15 @@ spec:
   type: NodePort
   ports:
   - port: 9200
-    name: port1
+    name: serving
     nodePort: 30200
     protocol: TCP
   - port: 9300
-    name: port2
+    name: node-to-node
     nodePort: 30300
     protocol: TCP
   selector:
-    app: elasticsearch
+    app: elasticsearch-pods
 ---    
 apiVersion: apps/v1
 kind: Deployment
