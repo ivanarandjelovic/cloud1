@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kibana
+  labels:
+    app: kibana
+spec:
+  type: NodePort
+  ports:
+  - port: 5601
+    name: serving
+    nodePort: 30601
+    protocol: TCP
+  selector:
+    app: kibana-pods
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+     app: kibana-pods
+  template:
+    metadata:
+      labels:
+        app: kibana-pods
+    spec:
+      containers:
+      - name: kibana-pods
+        image: docker.elastic.co/kibana/kibana-oss:6.4.0
+        env:
+        - name: CLUSTER_NAME
+          value: elasticsearch-cloud1 # name of the Elasticsearch cluster defined in the first part
+        - name: ELASTICSEARCH_URL
+          value: http://elasticsearch:9200
+#        resources:
+#          limits:
+#            cpu: 1000m
+#          requests:
+#            cpu: 100m
+        ports:
+        - containerPort: 5601
+          name: http
