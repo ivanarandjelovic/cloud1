@@ -46,9 +46,148 @@ spec:
           name: port1
         - containerPort: 9300
           name: port2
+        env:
+          # NOTE: the cluster name; update this
+          - name: cluster.name
+            value: elasticsearch-cloud1
 #        env:
 #        - name: "NETWORK_HOST"
 #          value: "_site_,_lo_"
 #        env:
 #        - name: JAVA_OPTS
 #          value: "-Dlogging.level.zipkin=DEBUG -Dlogging.level.zipkin2=DEBUG"
+apiVersion: v1
+kind: Service
+metadata:
+  name: kibana
+  labels:
+    app: kibana
+spec:
+  type: NodePort
+  ports:
+  - port: 5601
+    name: serving
+    nodePort: 30601
+    protocol: TCP
+  selector:
+    app: kibana-pods
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+     app: kibana-pods
+  template:
+    metadata:
+      labels:
+        app: kibana-pods
+    spec:
+      containers:
+      - name: kibana-pods
+        image: docker.elastic.co/kibana/kibana-oss:6.4.0
+        env:
+        - name: CLUSTER_NAME
+          value: elasticsearch-cloud1 # name of the Elasticsearch cluster defined in the first part
+        - name: ELASTICSEARCH_URL
+          value: http://elasticsearch:9200
+#        resources:
+#          limits:
+#            cpu: 1000m
+#          requests:
+#            cpu: 100m
+        ports:
+        - containerPort: 5601
+          name: http
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logstash-application
+data:
+  logstash.conf: |-
+    input {
+      tcp {
+        port => 5044
+        codec => "json"
+      }
+    }
+    output {
+      elasticsearch {
+        hosts => "elasticsearch:9200"
+        index => "logstash-%{+YYYY.MM.dd}"
+        sniffing => false
+      }
+    }
+  logstash.yml: |-
+    http.host: "0.0.0.0"
+    path.config: /usr/share/logstash/pipeline
+    xpack.monitoring.enabled: false
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: logstash-application
+spec:
+  template:
+    metadata:
+      labels:
+        app: logstash
+    spec:
+      containers:
+      - image: docker.elastic.co/logstash/logstash:6.4.0
+        name: logstash-pods
+        ports:
+        - name: logstash
+          containerPort: 5044
+          protocol: TCP
+        volumeMounts:
+        - name: config
+          mountPath: /usr/share/logstash/config/logstash.yml
+          subPath: logstash.yml
+          readOnly: true
+        - name: pipeline
+          mountPath: /usr/share/logstash/pipeline
+          readOnly: true
+        args:
+        - -f
+        - /usr/share/logstash/pipeline/logstash.conf
+#        resources:
+#          limits:
+#            memory: 2Gi
+#            cpu: "200m"
+#          requests:
+#            memory: 2Gi
+#            cpu: "200m"
+      volumes:
+      - name: pipeline
+        configMap:
+          name: logstash-application
+          items:
+          - key: logstash.conf
+            path: logstash.conf
+      - name: config
+        configMap:
+          name: logstash-application
+          items:
+          - key: logstash.yml
+            path: logstash.yml
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: logstash
+  labels:
+    app: logstash-pods
+spec:
+  type: NodePort
+  selector:
+    app: logstash
+  ports:
+  - name: logstash
+    port: 5044
+    nodePort: 30044
+    protocol: TCP
