@@ -25,16 +25,19 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: logstash-application
+  name: logstash
 spec:
+  selector:
+    matchLabels:
+      app: logstash-pods
   template:
     metadata:
       labels:
-        app: logstash
+        app: logstash-pods
     spec:
       containers:
       - image: docker.elastic.co/logstash/logstash:6.4.0
-        name: logstash-pods
+        name: logstash
         ports:
         - name: logstash
           containerPort: 5044
@@ -50,13 +53,13 @@ spec:
         args:
         - -f
         - /usr/share/logstash/pipeline/logstash.conf
-#        resources:
-#          limits:
-#            memory: 2Gi
-#            cpu: "200m"
+        resources:
+          limits:
+            memory: 2Gi
+            cpu: 1000m
 #          requests:
 #            memory: 2Gi
-#            cpu: "200m"
+#            cpu: 200m
       volumes:
       - name: pipeline
         configMap:
@@ -76,11 +79,11 @@ kind: Service
 metadata:
   name: logstash
   labels:
-    app: logstash-pods
+    app: logstash
 spec:
   type: NodePort
   selector:
-    app: logstash
+    app: logstash-pods
   ports:
   - name: logstash
     port: 5044

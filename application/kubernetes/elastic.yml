@@ -46,6 +46,13 @@ spec:
           name: port1
         - containerPort: 9300
           name: port2
+        resources:
+          limits:
+            memory: 2Gi
+            cpu: 500m
+#          requests:
+#            memory: 1Gi
+#            cpu: 100m
         env:
           # NOTE: the cluster name; update this
           - name: cluster.name
