@@ -38,4 +38,11 @@ spec:
         image: ivanarandjelovic/service-a:v0.0.4-SNAPSHOT
         ports:
         - containerPort: 8082
+        resources:
+          limits:
+            memory: 500Mi
+            cpu: 500m
+#          requests:
+#            memory: 1Gi
+#            cpu: 1000m
 
