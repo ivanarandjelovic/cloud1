@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "web.serviceAUrl",
+  "type": "java.lang.String",
+  "description": "URL where serviceA can be reached, default is localhost at port 8082"
+}]}	
