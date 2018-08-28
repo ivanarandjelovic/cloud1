@@ -1,6 +1,8 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: web
+  name: service-a
 data:
-  web.serviceAUrl: http://servicea:8082/
+  service-a.testProperty: test1value
+  service-a.service1Url: http://service1:8081/
+  

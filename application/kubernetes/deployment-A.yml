@@ -1,27 +1,27 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: web
+  name: servicea
   labels:
-    app: web
+    app: servicea
 spec:
   type: NodePort
   ports:
-  - port: 8083
-    nodePort: 30003
+  - port: 8082
+    nodePort: 30002
     protocol: TCP
   selector:
-    app: web-pods
+    app: servicea-pods
 ---    
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web-app
+  name: servicea-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: web-pods
+      app: servicea-pods
   minReadySeconds: 10
   strategy:
     type: RollingUpdate
@@ -31,13 +31,13 @@ spec:
   template:
     metadata:
       labels:
-        app: web-pods
+        app: servicea-pods
     spec:
       containers:
       - name: servicea
-        image: ivanarandjelovic/web:v0.0.1-SNAPSHOT
+        image: ivanarandjelovic/service-a:v0.0.4-SNAPSHOT
         ports:
-        - containerPort: 8083
+        - containerPort: 8082
 #        resources:
 #          limits:
 #            memory: 500Mi
