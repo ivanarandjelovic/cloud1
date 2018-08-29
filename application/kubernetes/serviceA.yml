@@ -35,7 +35,7 @@ spec:
     spec:
       containers:
       - name: servicea
-        image: ivanarandjelovic/service-a:v0.0.4-SNAPSHOT
+        image: ivanarandjelovic/service-a:v0.0.5-SNAPSHOT
         ports:
         - containerPort: 8082
 #        resources:

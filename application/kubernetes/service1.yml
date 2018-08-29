@@ -35,7 +35,7 @@ spec:
     spec:
       containers:
       - name: service1
-        image: ivanarandjelovic/service1:v0.0.2-SNAPSHOT
+        image: ivanarandjelovic/service1:v0.0.5-SNAPSHOT
         ports:
         - containerPort: 8081
 #        resources:

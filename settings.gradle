@@ -10,3 +10,5 @@
 rootProject.name = 'cloud1'
 
 include 'application', 'service1', 'serviceA'
+
+rootProject.ext.version = '0.0.5-SNAPSHOT'
