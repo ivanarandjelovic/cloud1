@@ -1,3 +1,3 @@
 # cloud1 
 
-Spring Boot/ Kubernetes/ ELK playground
+Spring Boot / Kubernetes/ ELK playground
