@@ -21,9 +21,6 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 
-group = 'org.aivan'
-sourceCompatibility = 1.8
-
 repositories {
 	mavenCentral()
 }
