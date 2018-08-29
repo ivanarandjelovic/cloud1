@@ -10,6 +10,12 @@ data:
         codec => "json"
       }
     }
+    #  add a date filter to take log4j2’s timeMillis field and use it as the event timestamp
+    filter {
+      date {
+        match => [ "timeMillis", "UNIX_MS" ]
+      }
+    }
     output {
       elasticsearch {
         hosts => "elasticsearch:9200"
