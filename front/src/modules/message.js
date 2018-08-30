@@ -31,7 +31,7 @@ export const getMessage = () => {
       type: MESSAGE_REQUESTED
     })
 
-    return fetch('http://localhost:8082')
+    return fetch('/api/')
     		.then( response => response.text()  
         			,error => console.log('An error occurred.', error)
     		).then( text => {
