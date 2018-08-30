@@ -9,8 +9,5 @@
 
 rootProject.name = 'cloud1'
 
-include 'application', 'service1', 'serviceA'
+include 'application', 'service1', 'serviceA', 'front'
 
-rootProject.ext.version = '0.0.5-SNAPSHOT'
-rootProject.group = 'org.aivan'
-rootProject.sourceCompatibility = 1.8
