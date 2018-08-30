@@ -8,11 +8,19 @@ import {
   decrement,
   decrementAsync
 } from '../../modules/counter'
+import {
+	  getMessage
+} from '../../modules/message'
 
 const Home = props => (
   <div>
     <h1>Home</h1>
     <p>Count: {props.count}</p>
+    <p>Message from backend: {props.messageContent}</p>
+
+    <p>
+	    <button onClick={props.getMessage}>Get Message</button>
+    </p>
 
     <p>
       <button onClick={props.increment}>Increment</button>
@@ -36,8 +44,10 @@ const Home = props => (
   </div>
 )
 
-const mapStateToProps = ({ counter }) => ({
+const mapStateToProps = ({ counter, message }) => ({
   count: counter.count,
+  messageContent: message.content,
+  isGettingMessage: message.isGettingMessage,
   isIncrementing: counter.isIncrementing,
   isDecrementing: counter.isDecrementing
 })
@@ -47,6 +57,7 @@ const mapDispatchToProps = dispatch =>
     {
       increment,
       incrementAsync,
+      getMessage,
       decrement,
       decrementAsync,
       changePage: () => push('/about-us')
