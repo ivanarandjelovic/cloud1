@@ -1,12 +1,17 @@
 plugins {
   id "com.palantir.docker" version "0.20.1"
   id "com.palantir.docker-run" version "0.20.1"
+  id "com.palantir.npm-run" version "0.5.0"
 }
 
-version = ext.version
+version = '0.0.5-SNAPSHOT'
+
+// Hm, this is the only working way to set dependency :(
+//tasks.docker.dependsOn {
+//	tasks.build
+//}
 
 docker {
-    //dependsOn build
     name "ivanarandjelovic/front:v${version}"
     files "./build"
     //buildArgs(['JAR_FILE': "${bootJar.archiveName}"])

@@ -40,7 +40,9 @@ dependencies {
 
 def lowerCaseJarName = bootJar.baseName.toLowerCase();
 
-version = ext.version
+version = '0.0.5-SNAPSHOT'
+group = 'org.aivan'
+sourceCompatibility = 1.8
 
 docker {
     dependsOn build
