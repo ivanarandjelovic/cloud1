@@ -42,6 +42,8 @@ dependencies {
 
 def lowerCaseJarName = bootJar.baseName.toLowerCase();
 
+version = ext.version
+
 docker {
     dependsOn build
     name "ivanarandjelovic/${lowerCaseJarName}:v${version}"

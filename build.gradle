@@ -5,7 +5,13 @@
  * Learn how to create Gradle builds at https://guides.gradle.org/creating-new-gradle-builds/
  */
 
-project.ext.group = 'org.aivan'
-project.ext.sourceCompatibility = 1.8
-project.ext.version = '0.0.5-SNAPSHOT'
 
+
+
+subprojects {
+	ext {
+		version = '0.0.5-SNAPSHOT'
+		group = 'org.aivan'
+		sourceCompatibility = 1.8
+	} 
+}

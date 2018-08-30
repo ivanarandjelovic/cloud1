@@ -1,0 +1,24 @@
+plugins {
+  id "com.palantir.docker" version "0.20.1"
+  id "com.palantir.docker-run" version "0.20.1"
+}
+
+version = ext.version
+
+docker {
+    //dependsOn build
+    name "ivanarandjelovic/front:v${version}"
+    files "./build"
+    //buildArgs(['JAR_FILE': "${bootJar.archiveName}"])
+}
+
+dockerRun {
+    name "front"
+    image "ivanarandjelovic/front:v${version}"
+//    volumes 'hostvolume': '/containervolume'
+    ports '80:30080'
+    daemonize true
+//    env 'MYVAR1': 'MYVALUE1', 'MYVAR2': 'MYVALUE2'
+//    command 'sleep', '100'
+//    network "spring"
+}

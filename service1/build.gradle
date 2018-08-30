@@ -38,6 +38,8 @@ dependencies {
 	}
 }
 
+version = ext.version
+
 docker {
     dependsOn build
     name "ivanarandjelovic/${bootJar.baseName}:v${version}"

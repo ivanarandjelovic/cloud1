@@ -24,7 +24,6 @@ repositories {
 	mavenCentral()
 }
 
-
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.boot:spring-boot-starter-web')
@@ -40,6 +39,8 @@ dependencies {
 }
 
 def lowerCaseJarName = bootJar.baseName.toLowerCase();
+
+version = ext.version
 
 docker {
     dependsOn build
