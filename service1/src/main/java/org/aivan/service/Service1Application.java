@@ -1,5 +1,7 @@
 package org.aivan.service;
 
+import java.util.Date;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +27,6 @@ public class Service1Application {
 	@RequestMapping("/")
 	public String service1() {
 		log.info("service1 method called 2!");
-		return "Hello from " + appName + "!";
+		return "Hello from " + appName + "! It's exactly "+new Date();
 	}
 }
