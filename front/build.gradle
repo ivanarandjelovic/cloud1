@@ -6,10 +6,14 @@ plugins {
 
 version = '0.0.5-SNAPSHOT'
 
-// Hm, this is the only working way to set dependency :(
-//tasks.docker.dependsOn {
-//	tasks.build
-//}
+project.afterEvaluate {
+	tasks.docker.dependsOn(tasks.build)
+//	tasks.each { task ->
+//		println task.name;
+//		println task.dependsOn;
+//	}
+}
+
 
 docker {
     name "ivanarandjelovic/front:v${version}"

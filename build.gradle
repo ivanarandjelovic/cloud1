@@ -5,4 +5,9 @@
  * Learn how to create Gradle builds at https://guides.gradle.org/creating-new-gradle-builds/
  */
 
-
+task buildDockerImages {
+	dependsOn ":front:docker"
+	dependsOn ":service1:docker"
+	dependsOn ":serviceA:docker"
+	dependsOn ":web:docker"  
+}
