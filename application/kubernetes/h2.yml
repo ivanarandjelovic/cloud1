@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: h2
+  labels:
+    app: h2
+spec:
+  type: NodePort
+  ports:
+  - port: 1521
+    name: database-port
+    nodePort: 31521
+    protocol: TCP
+  - port: 81
+    name: webadmin-port
+    nodePort: 30081
+    protocol: TCP
+  selector:
+    app: h2-pods
+---    
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: h2-rdbms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: h2-pods
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: h2-pods
+    spec:
+      containers:
+      - name: h2
+        image: oscarfonts/h2
+        ports:
+        - containerPort: 1521
+        - containerPort: 81
+#        resources:
+#          limits:
+#            memory: 500Mi
+#            cpu: 500m
+#          requests:
+#            memory: 1Gi
+#            cpu: 1000m
+        volumeMounts:
+        - mountPath: /opt/h2-data
+          name: h2-data 
+      volumes:
+        - name: h2-data
+          hostPath:
+            path: /C/data/h2
+            type: Directory
