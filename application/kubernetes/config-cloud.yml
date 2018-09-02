@@ -5,6 +5,7 @@ metadata:
 data:
   service-a.testProperty: test1value
   service-a.service1Url: http://service1:8081/
+  security.oauth2.resource.user-info-uri: http://authserver:8085/user
 ---
 kind: ConfigMap
 apiVersion: v1
