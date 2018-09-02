@@ -1,6 +1,5 @@
 package org.aivan.service;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -9,8 +8,8 @@ import org.springframework.stereotype.Component;
 public class ServiceAConfiguration {
 
 	String service1Url;
-	
-	//@Value("${service-a.testProperty}")
+
+	// @Value("${service-a.testProperty}")
 	String testProperty;
 
 	public String getService1Url() {
@@ -28,7 +27,5 @@ public class ServiceAConfiguration {
 	public void setTestProperty(String testProperty) {
 		this.testProperty = testProperty;
 	}
-	
-	
 
 }

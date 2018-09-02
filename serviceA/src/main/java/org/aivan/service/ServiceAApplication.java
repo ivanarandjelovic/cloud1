@@ -6,15 +6,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+//import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.client.OAuth2ClientContext;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+//import org.springframework.web.client.RestTemplate;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @RestController
 @EnableDiscoveryClient
+@EnableResourceServer
+@EnableOAuth2Sso
+@EnableOAuth2Client
 public class ServiceAApplication {
 
 //	private static final String SERVICE1_NAME = "service1";
@@ -26,19 +41,25 @@ public class ServiceAApplication {
 
 	@Autowired
 	RestTemplateBuilder restTemplateBuilder;
-	
+
+	/*
+	 * @Autowired private OAuth2RestTemplate oauth2RestTemplate;
+	 */
 	@Autowired
 	ServiceAConfiguration configuration;
-	
+
 	public static void main(String[] args) {
 		log.info("Application starting ...");
 		SpringApplication.run(ServiceAApplication.class, args);
 	}
 
+	@Autowired
+	OAuth2ClientContext oauth2ClientContext;
+
 	@RequestMapping("/")
 	public String serviceA() {
-		log.info("serviceA method called! Configuration prop 2 : "+configuration.getTestProperty());
-		
+		log.info("serviceA method called! Configuration prop 2 : " + configuration.getTestProperty());
+
 //		List<ServiceInstance> services = discoveryClient.getInstances(SERVICE1_NAME);
 //		if(services.size() == 0) {
 //			log.error("Service1 is not available1");
@@ -53,11 +74,18 @@ public class ServiceAApplication {
 //		ServiceInstance service1 = services.get(0);
 //		URI service1Url = service1.getUri();
 //		log.debug("service1 url is: "+service1Url.toString());
-		
+
 		RestTemplate restTemplate = restTemplateBuilder.build();
-		log.warn("using service1 URL: "+configuration.getService1Url());
-		String response = restTemplate.getForObject(configuration.getService1Url(), String.class);
-		
-		return "Hello 2 from " + appName + "! I called other service and got: "+response;
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set("Authorization", "Bearer " + oauth2ClientContext.getAccessToken());
+		HttpEntity<String> entity = new HttpEntity<String>( headers);
+
+		log.warn("using service1 URL: " + configuration.getService1Url());
+		ResponseEntity<String> response = restTemplate.exchange(configuration.getService1Url(), HttpMethod.GET, entity,
+				String.class);
+
+		return "Hello 2 from " + appName + "! I called other service and got: " + response.getBody();
 	}
 }
