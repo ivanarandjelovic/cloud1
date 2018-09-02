@@ -10,5 +10,5 @@ task buildDockerImages {
 	dependsOn ":service1:docker"
 	dependsOn ":serviceA:docker"
 	//dependsOn ":web:docker"  
-	dependsOn ":authserver:docker"  
+	dependsOn ":auth-server:docker"  
 }

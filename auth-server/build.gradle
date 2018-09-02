@@ -1,0 +1,64 @@
+buildscript {
+	ext {
+		springBootVersion = '2.0.4.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+plugins {
+  id "com.palantir.docker" version "0.20.1"
+  id "com.palantir.docker-run" version "0.20.1"
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'org.aivan'
+version = '0.0.5-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	springCloudVersion = 'Finchley.SR1'
+}
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.cloud:spring-cloud-starter-oauth2')
+	compile('org.springframework.cloud:spring-cloud-starter-zipkin:2.0.1.RELEASE')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+docker {
+    dependsOn build
+    name "ivanarandjelovic/${bootJar.baseName}:v${version}"
+    files bootJar.archivePath
+    buildArgs(['JAR_FILE': "${bootJar.archiveName}"])
+}
+
+dockerRun {
+    name "${bootJar.baseName}"
+    image "ivanarandjelovic/${bootJar.baseName}:v${version}"
+//    volumes 'hostvolume': '/containervolume'
+    ports '8085:8085'
+    daemonize true
+//    env 'MYVAR1': 'MYVALUE1', 'MYVAR2': 'MYVALUE2'
+//    command 'sleep', '100'
+//    network "spring"
+}
