@@ -11,9 +11,9 @@
         </comment>
 
 		<!-- Base Tables -->
-		<createTable tableName="user">
-			<column name="name" type="varchar(50)">
-				<constraints primaryKey="true" primaryKeyName="pk-user"
+		<createTable tableName="users">
+			<column name="username" type="varchar(50)">
+				<constraints primaryKey="true" primaryKeyName="pk-users"
 					nullable="false" />
 			</column>
 			<column name="password" type="varchar(100)">
@@ -23,8 +23,8 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
-		<createTable tableName="user_authority">
-			<column name="user_name" type="varchar(50)">
+		<createTable tableName="authorities">
+			<column name="username" type="varchar(50)">
 				<constraints nullable="false" />
 			</column>
 			<column name="authority" type="varchar(50)">
@@ -32,28 +32,28 @@
 			</column>
 		</createTable>
 		<addPrimaryKey constraintName="pk-user_authority"
-			tableName="user_authority" columnNames="user_name,authority" />
+			tableName="authorities" columnNames="username,authority" />
 		<addForeignKeyConstraint
 			constraintName="fk-user_authority-user"
-			baseTableName="user_authority" baseColumnNames="user_name"
-			referencedTableName="user" referencedColumnNames="name" />
-		<createIndex tableName="user_authority"
+			baseTableName="authorities" baseColumnNames="username"
+			referencedTableName="users" referencedColumnNames="username" />
+		<createIndex tableName="authorities"
 			indexName="ix-user_authority-user_name">
-			<column name="user_name" />
+			<column name="username" />
 			<column name="authority" />
 		</createIndex>
 
 		<!-- Groups -->
-		<createTable tableName="group">
+		<createTable tableName="groups">
 			<column name="id" type="bigint" autoIncrement="true">
 				<constraints primaryKey="true" primaryKeyName="pk-group" />
 			</column>
-			<column name="name" type="varchar(50)">
+			<column name="group_name" type="varchar(50)">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
 
-		<createTable tableName="group_authority">
+		<createTable tableName="group_authorities">
 			<column name="group_id" type="bigint">
 				<constraints nullable="false" />
 			</column>
@@ -63,16 +63,16 @@
 		</createTable>
 
 		<addForeignKeyConstraint
-			baseTableName="group_authority" baseColumnNames="group_id"
+			baseTableName="group_authorities" baseColumnNames="group_id"
 			constraintName="fk_group_authorities_group"
-			referencedColumnNames="id" referencedTableName="group" />
+			referencedColumnNames="id" referencedTableName="groups" />
 
-		<createTable tableName="group_member">
+		<createTable tableName="group_members">
 			<column name="id" type="bigint" autoIncrement="true">
 				<constraints primaryKey="true"
 					primaryKeyName="pk-group_member" />
 			</column>
-			<column name="user_name" type="varchar(50)">
+			<column name="username" type="varchar(50)">
 				<constraints nullable="false" />
 			</column>
 			<column name="group_id" type="bigint">
@@ -81,9 +81,84 @@
 		</createTable>
 
 		<addForeignKeyConstraint
-			baseTableName="group_member" baseColumnNames="group_id"
-			constraintName="fk-group_member-group" referencedTableName="group"
+			baseTableName="group_members" baseColumnNames="group_id"
+			constraintName="fk-group_member-group" referencedTableName="groups"
 			referencedColumnNames="id" />
 
+	</changeSet>
+	<changeSet id="00001-2" author="aivan">
+		<createTable tableName="oauth_client_details">
+			<column name="client_id" type="varchar(255)">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="resource_ids" type="varchar(256)" />
+			<column name="client_secret" type="varchar(256)" />
+			<column name="scope" type="varchar(256)" />
+			<column name="authorized_grant_types" type="varchar(256)" />
+			<column name="web_server_redirect_uri" type="varchar(256)" />
+			<column name="authorities" type="varchar(256)" />
+			<column name="access_token_validity" type="int" />
+			<column name="refresh_token_validity" type="int" />
+			<column name="additional_information" type="varchar(4096)" />
+			<column name="autoapprove" type="varchar(256)" />
+		</createTable>
+
+		<createTable tableName="oauth_client_token">
+			<column name="token_id" type="varchar(256)"></column>
+			<column name="token" type="longvarbinary"></column>
+			<column name="authentication_id" type="varchar(256)">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="user_name" type="varchar(256)"></column>
+			<column name="client_id" type="varchar(256)"></column>
+		</createTable>
+
+		<createTable tableName="oauth_access_token">
+			<column name="token_id" type="varchar(256)"></column>
+			<column name="token" type="longvarbinary"></column>
+			<column name="authentication_id" type="varchar(256)">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="user_name" type="varchar(256)"></column>
+			<column name="client_id" type="varchar(256)"></column>
+			<column name="authentication" type="longvarbinary"></column>
+			<column name="refresh_token" type="varchar(256)"></column>
+		</createTable>
+
+		<createTable tableName="oauth_refresh_token">
+			<column name="token_id" type="varchar(256)"></column>
+			<column name="token" type="longvarbinary"></column>
+			<column name="authentication" type="longvarbinary"></column>
+		</createTable>
+
+		<createTable tableName="oauth_code">
+			<column name="code" type="varchar(256)"></column>
+			<column name="authentication" type="longvarbinary"></column>
+		</createTable>
+
+		<createTable tableName="oauth_approvals">
+			<column name="userId" type="varchar(256)"></column>
+			<column name="clientId" type="varchar(256)"></column>
+			<column name="scope" type="varchar(256)"></column>
+			<column name="status" type="varchar(10)"></column>
+			<column name="expiresAt" type="timestamp"></column>
+			<column name="lastModifiedAt" type="timestamp"></column>
+		</createTable>
+
+		<createTable tableName="ClientDetails">
+			<column name="appId" type="varchar(256)">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="resourceIds" type="varchar(256)" />
+			<column name="appSecret" type="varchar(256)" />
+			<column name="scope" type="varchar(256)" />
+			<column name="grantTypes" type="varchar(256)" />
+			<column name="redirectUrl" type="varchar(256)" />
+			<column name="authorities" type="varchar(256)" />
+			<column name="access_token_validity" type="int" />
+			<column name="refresh_token_validity" type="int" />
+			<column name="additionalInformation" type="varchar(4096)" />
+			<column name="autoApproveScopes" type="varchar(256)" />
+		</createTable>
 	</changeSet>
 </databaseChangeLog>

@@ -7,8 +7,8 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - port: 8082
-    nodePort: 30002
+  - port: 8083
+    nodePort: 30003
     protocol: TCP
   selector:
     app: servicea-pods
@@ -37,7 +37,7 @@ spec:
       - name: servicea
         image: ivanarandjelovic/service-a:v0.0.5-SNAPSHOT
         ports:
-        - containerPort: 8082
+        - containerPort: 8083
 #        resources:
 #          limits:
 #            memory: 500Mi

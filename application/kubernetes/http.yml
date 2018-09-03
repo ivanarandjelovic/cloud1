@@ -12,7 +12,7 @@ spec:
       - path: /api
         backend:
           serviceName: servicea
-          servicePort: 8082
+          servicePort: 8083
       - path: /
         backend:
           serviceName: front
