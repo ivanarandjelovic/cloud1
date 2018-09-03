@@ -6,6 +6,7 @@ data:
   service-a.testProperty: test1value
   service-a.service1Url: http://service1:8081/
   security.oauth2.resource.user-info-uri: http://authserver:8085/user
+  spring.zipkin.baseUrl: http://zipkin:9411/
 ---
 kind: ConfigMap
 apiVersion: v1
@@ -13,3 +14,11 @@ metadata:
   name: service1
 data:
   security.oauth2.resource.user-info-uri: http://authserver:8085/user
+  spring.zipkin.baseUrl: http://zipkin:9411/
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: authserver
+data:
+  spring.zipkin.baseUrl: http://zipkin:9411/
