@@ -9,9 +9,7 @@ public class ServiceConfig extends GlobalAuthenticationConfigurerAdapter {
 	
 	@Override
 	public void init(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication()
-		.withUser("aivan").password("{noop}aivan").roles("USER").and()
-		.withUser("admin").password("{noop}admin").roles("USER", "OPERATOR");
+		auth.jdbcAuthentication();
 	}
 
 }

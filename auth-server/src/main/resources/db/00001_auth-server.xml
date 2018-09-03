@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
+	<changeSet id="00001-1" author="aivan">
+		<comment>Spring Security Authentication - Users, Authorities and groups</comment>
+		<comment>For the initial schema definition see
+            https://docs.spring.io/spring-security/site/docs/current/reference/html/appendix-schema.html
+        </comment>
+
+		<!-- Base Tables -->
+		<createTable tableName="user">
+			<column name="name" type="varchar(50)">
+				<constraints primaryKey="true" primaryKeyName="pk-user"
+					nullable="false" />
+			</column>
+			<column name="password" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="enabled" type="BOOLEAN" defaultValue="false">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="user_authority">
+			<column name="user_name" type="varchar(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="authority" type="varchar(50)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addPrimaryKey constraintName="pk-user_authority"
+			tableName="user_authority" columnNames="user_name,authority" />
+		<addForeignKeyConstraint
+			constraintName="fk-user_authority-user"
+			baseTableName="user_authority" baseColumnNames="user_name"
+			referencedTableName="user" referencedColumnNames="name" />
+		<createIndex tableName="user_authority"
+			indexName="ix-user_authority-user_name">
+			<column name="user_name" />
+			<column name="authority" />
+		</createIndex>
+
+		<!-- Groups -->
+		<createTable tableName="group">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" primaryKeyName="pk-group" />
+			</column>
+			<column name="name" type="varchar(50)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createTable tableName="group_authority">
+			<column name="group_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="authority" type="varchar(50)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addForeignKeyConstraint
+			baseTableName="group_authority" baseColumnNames="group_id"
+			constraintName="fk_group_authorities_group"
+			referencedColumnNames="id" referencedTableName="group" />
+
+		<createTable tableName="group_member">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true"
+					primaryKeyName="pk-group_member" />
+			</column>
+			<column name="user_name" type="varchar(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="group_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addForeignKeyConstraint
+			baseTableName="group_member" baseColumnNames="group_id"
+			constraintName="fk-group_member-group" referencedTableName="group"
+			referencedColumnNames="id" />
+
+	</changeSet>
+</databaseChangeLog>
