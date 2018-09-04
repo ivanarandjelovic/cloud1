@@ -12,6 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.FixedAuthoritiesExtractor;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoRestTemplateFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
@@ -42,9 +43,10 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
 
 	private AuthoritiesExtractor authoritiesExtractor = new FixedAuthoritiesExtractor();
 
-	public CustomUserInfoTokenServices(String userInfoEndpointUrl, String clientId) {
+	public CustomUserInfoTokenServices(String userInfoEndpointUrl, String clientId, UserInfoRestTemplateFactory restTemplateFactory) {
 		this.userInfoEndpointUrl = userInfoEndpointUrl;
 		this.clientId = clientId;
+		this.restTemplate = restTemplateFactory.getUserInfoRestTemplate();
 	}
 
 	public void setTokenType(String tokenType) {

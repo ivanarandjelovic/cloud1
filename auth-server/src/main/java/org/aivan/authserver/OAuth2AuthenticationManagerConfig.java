@@ -15,6 +15,7 @@ public class OAuth2AuthenticationManagerConfig extends GlobalAuthenticationConfi
 	
 	@Override
 	public void init(AuthenticationManagerBuilder auth) throws Exception {
+		super.init(auth);
 		auth.jdbcAuthentication().dataSource(dataSource);
 	}
 

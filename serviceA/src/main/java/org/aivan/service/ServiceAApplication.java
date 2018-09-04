@@ -8,10 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoRestTemplateFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 //import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -50,8 +52,10 @@ public class ServiceAApplication {
 
 	//added
 	@Bean
-	public ResourceServerTokenServices myUserInfoTokenServices() {
-		return new CustomUserInfoTokenServices(sso.getUserInfoUri(), sso.getClientId());
+	@Primary
+	public ResourceServerTokenServices myUserInfoTokenServices(
+			@Autowired UserInfoRestTemplateFactory restTemplateFactory) {
+		return new CustomUserInfoTokenServices(sso.getUserInfoUri(), sso.getClientId(), restTemplateFactory);
 	}
 	
 	/*

@@ -18,6 +18,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
 	@Override
 	public void configure(final ClientDetailsServiceConfigurer clients) throws Exception {
+		super.configure(clients);
 		clients.jdbc(dataSource);
 	}
 
