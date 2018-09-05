@@ -10,6 +10,9 @@
     "eject": "react-scripts eject",
     "precommit": "pretty-quick --staged"
   },
+  "proxy": {
+    "/oauth": {"target": "http://localhost:8085"}
+  },
   "devDependencies": {
     "prettier": "1.14.2",
     "react-scripts": "1.1.5"
@@ -25,6 +28,7 @@
     "react-router": "4.3.1",
     "react-router-dom": "4.3.1",
     "redux": "4.0.0",
+    "redux-form": "^7.4.2",
     "redux-thunk": "2.3.0",
     "sanitize.css": "7.0.1",
     "serve": "10.0.0"

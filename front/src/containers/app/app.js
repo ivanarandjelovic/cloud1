@@ -1,19 +1,37 @@
 import React from 'react'
-import { Route, Link } from 'react-router-dom'
+import { Route, Link, withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Home from '../home/home'
 import About from '../about/about'
 import Login from '../login/login'
-	
-const App = props => (
-  <div className="container">
+import { handleLogout, checkLogin } from '../../modules/login'
+
+class App extends React.Component {
+  props;
+
+	constructor(props) {
+		super(props)
+	}
+
+	componentWillMount() {
+console.log(this.props);
+		this.props.checkLogin();
+	}
+
+	render() {
+   return <div className="container">
     <header>
-      <Link to="/">Home</Link>
-      <Link to="/about-us">About</Link>
+			<div>
+				<ul className="nav">
+	        <li className="nav-item"><Link to="/" className="nav-link">Home</Link></li>
+	        <li className="nav-item"><Link to="/about-us" className="nav-link">About</Link></li>
+				  <li className="nav-item"><button onClick={this.props.handleLogout} className="btn btn-warning  nav-link">Logout</button></li>
+				</ul>
+		</div>
     </header>
-   
-	{props.isLoggedIn ? (
+
+	  {this.props.loggedIn ? (
 			<main>
     		      <Route exact path="/" component={Home} />
     		      <Route exact path="/about-us" component={About} />
@@ -23,24 +41,27 @@ const App = props => (
         	   <Login/>
         	</main>
           )
-    }	
-  </div>
-)
+      }
+    </div>;
+  }
+}
 
 const mapStateToProps = ({ login, counter }) => ({
-  login: login,
+  loggedIn: login.loggedIn,
   count: counter.count
 })
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
+			handleLogout,
+			checkLogin
     },
     dispatch
   )
-  
-export default connect(
+
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(App)
+)(App))
 // export default App
