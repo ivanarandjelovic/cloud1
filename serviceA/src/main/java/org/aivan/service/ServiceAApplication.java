@@ -1,5 +1,10 @@
 package org.aivan.service;
 
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+
+import org.aivan.service.util.BearerRestTemaplateInterceptor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +24,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
@@ -45,19 +51,21 @@ public class ServiceAApplication {
 
 	@Autowired
 	RestTemplateBuilder restTemplateBuilder;
+	
+	RestTemplate restTemplate;
 
-	//added
+	// added
 	@Autowired
 	private ResourceServerProperties sso;
 
-	//added
+	// added
 	@Bean
 	@Primary
 	public ResourceServerTokenServices myUserInfoTokenServices(
 			@Autowired UserInfoRestTemplateFactory restTemplateFactory) {
 		return new CustomUserInfoTokenServices(sso.getUserInfoUri(), sso.getClientId(), restTemplateFactory);
 	}
-	
+
 	/*
 	 * @Autowired private OAuth2RestTemplate oauth2RestTemplate;
 	 */
@@ -71,6 +79,18 @@ public class ServiceAApplication {
 
 	@Autowired
 	OAuth2ClientContext oauth2ClientContext;
+
+	@PostConstruct
+	public void buildRestTemplate() {
+		restTemplate = restTemplateBuilder.build();
+	}
+	
+	@PostConstruct
+	public void addInterceptors() {
+		List<ClientHttpRequestInterceptor> interceptors = restTemplate.getInterceptors();
+		interceptors.add(new BearerRestTemaplateInterceptor(oauth2ClientContext));
+		restTemplate.setInterceptors(interceptors);
+	}
 
 	@RequestMapping("/")
 	public String serviceA() {
@@ -91,12 +111,12 @@ public class ServiceAApplication {
 //		URI service1Url = service1.getUri();
 //		log.debug("service1 url is: "+service1Url.toString());
 
-		RestTemplate restTemplate = restTemplateBuilder.build();
+		
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.set("Authorization", "Bearer " + oauth2ClientContext.getAccessToken());
-		HttpEntity<String> entity = new HttpEntity<String>( headers);
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
 
 		log.warn("using service1 URL: " + configuration.getService1Url());
 		ResponseEntity<String> response = restTemplate.exchange(configuration.getService1Url(), HttpMethod.GET, entity,
