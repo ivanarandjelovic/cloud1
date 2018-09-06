@@ -14,7 +14,7 @@
 		</Socket>
 	</Appenders>
 	<Loggers>
-		<Root level="trace">
+		<Root level="info">
 			<AppenderRef ref="ConsoleAppender" />
 			<AppenderRef ref="Socket" />
 		</Root>
