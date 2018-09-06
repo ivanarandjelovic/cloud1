@@ -19,7 +19,7 @@ const Home = props => (
     <p>Message from backend: {props.messageContent}</p>
 
     <p>
-	    <button onClick={props.getMessage}>Get Message</button>
+	    <button onClick={() => props.getMessage(props.access_token)}>Get Message</button>
     </p>
 
     <p>
@@ -44,12 +44,13 @@ const Home = props => (
   </div>
 )
 
-const mapStateToProps = ({ counter, message }) => ({
+const mapStateToProps = ({ counter, message, login }) => ({
   count: counter.count,
   messageContent: message.content,
   isGettingMessage: message.isGettingMessage,
   isIncrementing: counter.isIncrementing,
-  isDecrementing: counter.isDecrementing
+  isDecrementing: counter.isDecrementing,
+  access_token: login.access_token
 })
 
 const mapDispatchToProps = dispatch =>

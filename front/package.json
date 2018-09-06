@@ -11,7 +11,12 @@
     "precommit": "pretty-quick --staged"
   },
   "proxy": {
-    "/oauth": {"target": "http://localhost:8085"}
+    "/authserver": {
+      "target": "http://localhost:8085"
+    },
+    "/servicea": {
+      "target": "http://localhost:8083"
+    }
   },
   "devDependencies": {
     "prettier": "1.14.2",

@@ -25,23 +25,29 @@ export default (state = initialState, action) => {
   }
 }
 
-export const getMessage = () => {
+export const getMessage = (access_token) => {
   return dispatch => {
     dispatch({
       type: MESSAGE_REQUESTED
     })
 
-    return fetch('/api/')
-    		.then( response => response.text()  
-        			,error => console.log('An error occurred.', error)
-    		).then( text => {
-	    			dispatch({
-	    				type: MESSAGE,
-	    				content: text
-	    			})
-    			}
-    			,error => console.log('An error occurred.', error)
-    		);
+    let headers = new Headers();
+    headers.set('Authorization', 'Bearer ' + access_token)
+    return fetch('/servicea/', {
+        method: 'GET',
+        headers: headers
+      })
+      .then(response => {
+        if (response.ok) {
+          return response.text()
+        }
+      }, error => console.log('An error occurred.', error)).then(text => {
+        if (text) {
+          dispatch({
+            type: MESSAGE,
+            content: text
+          })
+        }
+      }, error => console.log('An error occurred.', error));
   }
 }
-

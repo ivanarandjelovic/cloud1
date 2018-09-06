@@ -9,14 +9,10 @@
 		<Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
 			<PatternLayout pattern="${LOG_PATTERN}" />
 		</Console>
-		<Socket name="Socket" host="logstash" port="5044">
-			<JsonLayout compact="true" eventEol="true" />
-		</Socket>
 	</Appenders>
 	<Loggers>
-		<Root level="trace">
+		<Root level="INFO">
 			<AppenderRef ref="ConsoleAppender" />
-			<AppenderRef ref="Socket" />
 		</Root>
 	</Loggers>
 </Configuration>

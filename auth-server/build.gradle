@@ -38,8 +38,15 @@ dependencies {
 	compile('org.springframework.cloud:spring-cloud-starter-zipkin:2.0.1.RELEASE')
 	compile('org.springframework.boot:spring-boot-starter-jdbc')
 	compile('org.liquibase:liquibase-core');
+  compile('org.springframework.cloud:spring-cloud-starter-kubernetes:0.3.0.RELEASE')
+  compile('org.springframework.cloud:spring-cloud-kubernetes-config:0.3.0.RELEASE')
 	compile('com.h2database:h2:1.4.197');
-	
+	compile('org.springframework.boot:spring-boot-starter-log4j2')
+	 
+	configurations {
+      all*.exclude module : 'spring-boot-starter-logging'
+  }
+  
 	// JDBC tracing to zipkin and console
 	compile('p6spy:p6spy:3.7.0')
 	compile('io.zipkin.brave:brave-instrumentation-p6spy:5.1.5')

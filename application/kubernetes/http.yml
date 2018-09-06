@@ -3,16 +3,20 @@ kind: Ingress
 metadata:
   name: http
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    # nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   rules:
   - http:
       paths:
-      - path: /api
+      - path: /servicea
         backend:
           serviceName: servicea
           servicePort: 8083
+      - path: /authserver
+        backend:
+          serviceName: authserver
+          servicePort: 8085
       - path: /
         backend:
           serviceName: front
