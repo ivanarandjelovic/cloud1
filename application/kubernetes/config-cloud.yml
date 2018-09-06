@@ -7,6 +7,8 @@ data:
   service-a.service1Url: http://service1:8081/service1
   security.oauth2.resource.user-info-uri: http://authserver:8085/authserver/user
   spring.zipkin.baseUrl: http://zipkin:9411/
+  # Limiting smapling on top service is sufficient
+  #spring.sleuth.sampler.probability: "0.1"
 ---
 kind: ConfigMap
 apiVersion: v1
