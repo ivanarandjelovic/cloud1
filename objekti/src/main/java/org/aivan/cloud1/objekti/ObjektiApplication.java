@@ -1,6 +1,5 @@
 package org.aivan.cloud1.objekti;
 
-import org.aivan.cloud1.service_common.ResourceServerConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.SpringApplication;
