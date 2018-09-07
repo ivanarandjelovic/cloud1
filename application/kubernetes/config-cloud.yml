@@ -24,5 +24,14 @@ metadata:
   name: authserver
 data:
   spring.zipkin.baseUrl: http://zipkin:9411/
-  spring.datasource.url: jdbc:p6spy:h2:tcp://h2:1521/./test?zipkinServiceName=db
+  spring.datasource.url: jdbc:p6spy:h2:tcp://h2:1521/./test
+  #logging.level.root: DEBUG
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: objekti
+data:
+  spring.zipkin.baseUrl: http://zipkin:9411/
+  spring.datasource.url: jdbc:p6spy:h2:tcp://h2:1521/./objekti
   #logging.level.root: DEBUG

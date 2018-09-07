@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 
 @Configuration
-public abstract class ResourceServerConfiguration {
+public class ResourceServerConfiguration {
 
 	// added
 	@Autowired

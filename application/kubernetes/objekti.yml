@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: objekti
+  labels:
+    app: objekti
+spec:
+  type: NodePort
+  ports:
+  - port: 8084
+    nodePort: 30084
+    protocol: TCP
+  selector:
+    app: objekti-pods
+---    
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: objekti-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: objekti-pods
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: objekti-pods
+    spec:
+      containers:
+      - name: authserver
+        image: ivanarandjelovic/objekti:v0.0.5-SNAPSHOT
+        ports:
+        - containerPort: 8084
+#        resources:
+#          limits:
+#            memory: 500Mi
+#            cpu: 500m
+#          requests:
+#            memory: 1Gi
+#            cpu: 1000m
+
