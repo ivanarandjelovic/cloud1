@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
+
+	<changeSet author="aivan" id="1">
+		<createTable tableName="zgrada"
+			remarks="Predstavlja jednu zgradu ili jedan ulaz u zgradi - svakako jedna jedinica upravljana za jednog upravnika">
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" />
+			</column>
+			<column name="adresa" type="VARCHAR(256)">
+				<constraints nullable="false" />
+			</column>
+			<column name="ime" type="VARCHAR(256)"
+				remarks="Neko ime koje ce lako asocirati na tu zgradu">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="aivan" id="2">
+		<addPrimaryKey tableName="zgrada"
+			constraintName="zgrada_pk" columnNames="id" />
+	</changeSet>
+	<changeSet author="aivan" id="3">
+		<createSequence sequenceName="zgrada_id_seq" />
+	</changeSet>
+
+	<changeSet author="aivan" id="4">
+		<createTable tableName="stan"
+			remarks="Jedna stambena jedinica u okviru zgrade">
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" />
+			</column>
+			<column name="broj" type="VARCHAR(128)"
+				remarks="Broj ili druga oznaka stana">
+				<constraints nullable="false" />
+			</column>
+			<column name="sprat" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="zgrada_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="aivan" id="5">
+		<addPrimaryKey tableName="stan" constraintName="stan_pk"
+			columnNames="id" />
+	</changeSet>
+	<changeSet author="aivan" id="6">
+		<createSequence sequenceName="stan_id_seq" />
+	</changeSet>
+
+	<changeSet author="aivan" id="7">
+		<createTable tableName="FIRMA"
+			remarks="Predstavlja jednu firmu koja ima vise upravnika zgrada">
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints nullable="false" />
+			</column>
+			<column name="adresa" type="VARCHAR(256)">
+				<constraints nullable="false" />
+			</column>
+			<column name="ime" type="VARCHAR(200)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="aivan" id="8">
+		<addPrimaryKey tableName="FIRMA"
+			constraintName="FIRMA_PK" columnNames="id" />
+	</changeSet>
+	<changeSet author="aivan" id="9">
+		<createSequence sequenceName="FIRMA_id_seq" />
+	</changeSet>
+
+	<changeSet author="aivan" id="10">
+		<addForeignKeyConstraint baseTableName="stan"
+			constraintName="zgrada_stan_fk" baseColumnNames="zgrada_id"
+			referencedTableName="zgrada" referencedColumnNames="id" />
+	</changeSet>
+
+	<changeSet author="aivan" id="11">
+		<addColumn tableName="stan">
+			<column name="broj_stanara" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+	</changeSet>
+
+
+</databaseChangeLog>
