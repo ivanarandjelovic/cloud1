@@ -32,6 +32,7 @@ apiVersion: v1
 metadata:
   name: objekti
 data:
+  security.oauth2.resource.user-info-uri: http://authserver:8085/authserver/user
   spring.zipkin.baseUrl: http://zipkin:9411/
   spring.datasource.url: jdbc:p6spy:h2:tcp://h2:1521/./objekti
   #logging.level.root: DEBUG
