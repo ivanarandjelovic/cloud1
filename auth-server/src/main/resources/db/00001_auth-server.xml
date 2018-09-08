@@ -219,5 +219,15 @@ insert into authorities(username, authority) values ('o','OPERATOR');
 insert into users(username, password, enabled) values ('a','{noop}a',true);
 insert into authorities(username, authority) values ('a','ADMIN');
       </sql>
-    </changeSet>     	
+    </changeSet>   
+    <changeSet id="00001-7" author="aivan" context="test">
+      <sql splitStatements="true">  
+    update oauth_client_details set scope='web_scope' where client_id='webapp';
+    </sql>
+   </changeSet>
+    <changeSet id="00001-8" author="aivan" context="test">
+      <sql splitStatements="true">  
+    update oauth_client_details set scope='web_scope' where client_id='public';
+    </sql>
+   </changeSet>
 </databaseChangeLog>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
+
+	<changeSet author="aivan" id="12">
+	  <sql splitStatements="true">
+insert into firma(ime,adresa) values('F1','Adresa 1');
+insert into firma(ime,adresa) values('F2','Adresa 2');
+insert into firma(ime,adresa) values('F3','Adresa 3');
+insert into firma(ime,adresa) values('F4','Adresa 4');
+insert into firma(ime,adresa) values('F5','Adresa 5');  
+	  </sql>
+	</changeSet>
+
+</databaseChangeLog>
