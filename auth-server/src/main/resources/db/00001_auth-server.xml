@@ -187,5 +187,37 @@ VALUES
     ('public', '{noop}', 'test_scope',
     'authorization_code,refresh_token,password,client_credentials', null, null, 36000, 36000, null, true);
 		  </sql>
-		</changeSet>		
+		</changeSet>	
+		<changeSet id="00001-5" author="aivan" context="test">
+      <sql splitStatements="true">  
+insert into authorities(username, authority) values ('aivan','STANAR');
+
+insert into users(username, password, enabled) values ('stanar','{noop}stanar',true);
+insert into authorities(username, authority) values ('stanar','STANAR');
+
+insert into users(username, password, enabled) values ('upravnik','{noop}upravnik',true);
+insert into authorities(username, authority) values ('upravnik','UPRAVNIK');
+
+insert into users(username, password, enabled) values ('operator','{noop}operator',true);
+insert into authorities(username, authority) values ('operator','OPERATOR');
+
+insert into users(username, password, enabled) values ('admin','{noop}admin',true);
+insert into authorities(username, authority) values ('admin','ADMIN');
+      </sql>
+    </changeSet>  
+    <changeSet id="00001-6" author="aivan" context="test">
+      <sql splitStatements="true">  
+insert into users(username, password, enabled) values ('s','{noop}s',true);
+insert into authorities(username, authority) values ('s','STANAR');
+
+insert into users(username, password, enabled) values ('u','{noop}u',true);
+insert into authorities(username, authority) values ('u','UPRAVNIK');
+
+insert into users(username, password, enabled) values ('o','{noop}o',true);
+insert into authorities(username, authority) values ('o','OPERATOR');
+
+insert into users(username, password, enabled) values ('a','{noop}a',true);
+insert into authorities(username, authority) values ('a','ADMIN');
+      </sql>
+    </changeSet>     	
 </databaseChangeLog>

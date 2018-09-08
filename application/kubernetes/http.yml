@@ -9,6 +9,10 @@ spec:
   rules:
   - http:
       paths:
+      - path: /api/objekti
+        backend:
+          serviceName: objekti
+          servicePort: 8084
       - path: /servicea
         backend:
           serviceName: servicea
