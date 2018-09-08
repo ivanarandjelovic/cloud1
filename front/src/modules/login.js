@@ -2,6 +2,7 @@ export const LOGIN_REQUESTED = 'login/LOGIN_REQUESTED'
 export const LOGIN_SUCCESS = 'login/LOGIN_SUCCESS'
 export const LOGIN_FAILED = 'login/LOGIN_FAILED'
 export const LOGOUT_REQUESTED = 'login/LOGOUT_REQUESTED'
+export const LOGIN_GOT_USER = "login/GOT_USER"
 
 const initialState = {
   loggedIn: false
@@ -20,7 +21,8 @@ export default (state = initialState, action) => {
         ...state,
         inProgress: false,
         loggedIn: false,
-        access_token: null
+        access_token: null,
+        user: null
       }
     case LOGIN_SUCCESS:
       localStorage.setItem('access_token', action.access_token)
@@ -35,6 +37,11 @@ export default (state = initialState, action) => {
         ...state,
         inProgress: false,
         loggedIn: false
+      }
+    case LOGIN_GOT_USER:
+      return {
+        ...state,
+        user: action.user,
       }
     default:
       return state
@@ -57,6 +64,7 @@ export const checkLogin = () => {
         type: LOGIN_SUCCESS,
         access_token
       })
+      loadUser(dispatch, access_token)
     }
   } else {
     return dispatch => {}
@@ -77,7 +85,7 @@ export const submitLogin = values => {
     return fetch('/authserver/oauth/token', {
         method: 'POST',
         headers: headers,
-        body: "username=" + values.username + "&password=" + values.password + "&grant_type=password&scope=test_scope"
+        body: "username=" + values.username + "&password=" + values.password + "&grant_type=password&scope=web_scope"
       })
       .then(response => {
         if (response.ok) {
@@ -93,6 +101,7 @@ export const submitLogin = values => {
             type: LOGIN_SUCCESS,
             access_token: json.access_token
           })
+          loadUser(dispatch, json.access_token)
         }
       }, error => {
         console.log('An error occurred.', error)
@@ -100,6 +109,28 @@ export const submitLogin = values => {
           type: LOGIN_FAILED
         })
       });
-
   }
+}
+
+export const loadUser = (dispatch, access_token) => {
+  let headers = new Headers()
+  headers.set('Authorization', 'Bearer ' + access_token)
+  headers.set('Content-Type', 'application/json')
+  return fetch('/authserver/user', {
+      method: 'GET',
+      headers: headers
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    }, error => console.log('An error occurred.', error))
+    .then(json => {
+      if (json) {
+        dispatch({
+          type: LOGIN_GOT_USER,
+          user: json
+        })
+      }
+    }, error => console.log('An error occurred.', error));
 }

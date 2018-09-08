@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import Home from '../home/home'
 import About from '../about/about'
 import Login from '../login/login'
+import Firme from '../firme/firme'
 import { handleLogout, checkLogin } from '../../modules/login'
 
 class App extends React.Component {
@@ -15,7 +16,6 @@ class App extends React.Component {
 	}
 
 	componentWillMount() {
-console.log(this.props);
 		this.props.checkLogin();
 	}
 
@@ -25,8 +25,10 @@ console.log(this.props);
 			<div>
 				<ul className="nav">
 	        <li className="nav-item"><Link to="/" className="nav-link">Home</Link></li>
+          <li className="nav-item"><Link to="/firme" className="nav-link">Firme</Link></li>
 	        <li className="nav-item"><Link to="/about-us" className="nav-link">About</Link></li>
 				  <li className="nav-item"><button onClick={this.props.handleLogout} className="btn btn-warning  nav-link">Logout</button></li>
+          <li className="nav-item">User: {this.props.user && this.props.user.name}</li>
 				</ul>
 		</div>
     </header>
@@ -34,6 +36,7 @@ console.log(this.props);
 	  {this.props.loggedIn ? (
 			<main>
     		      <Route exact path="/" component={Home} />
+              <Route exact path="/firme" component={Firme} />
     		      <Route exact path="/about-us" component={About} />
     		</main>
           ) : (
@@ -48,7 +51,8 @@ console.log(this.props);
 
 const mapStateToProps = ({ login, counter }) => ({
   loggedIn: login.loggedIn,
-  count: counter.count
+  count: counter.count,
+  user: login.user
 })
 
 const mapDispatchToProps = dispatch =>

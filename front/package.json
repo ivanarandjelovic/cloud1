@@ -16,6 +16,9 @@
     },
     "/servicea": {
       "target": "http://localhost:8083"
+    },
+    "/api/objekti": {
+      "target": "http://localhost:8084"
     }
   },
   "devDependencies": {
