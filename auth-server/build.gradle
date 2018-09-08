@@ -52,7 +52,7 @@ dependencies {
 	compile('io.zipkin.brave:brave-instrumentation-p6spy:5.1.5')
 	
 	compileOnly('org.springframework.boot:spring-boot-devtools')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+	//testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
 dependencyManagement {

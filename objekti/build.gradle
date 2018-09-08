@@ -45,8 +45,17 @@ dependencies {
   compile('org.springframework.cloud:spring-cloud-starter-kubernetes:0.3.0.RELEASE')
   compile('org.springframework.cloud:spring-cloud-kubernetes-config:0.3.0.RELEASE')
 	runtime('org.springframework.boot:spring-boot-devtools')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+	//testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.security:spring-security-test')
+ 
+  // https://mvnrepository.com/artifact/org.springframework.security/spring-security-acl
+  compile group: 'org.springframework.security', name: 'spring-security-acl', version: '5.0.7.RELEASE'
+  // https://mvnrepository.com/artifact/net.sf.ehcache/ehcache
+  compile group: 'net.sf.ehcache', name: 'ehcache', version: '2.10.5'
+  // https://mvnrepository.com/artifact/org.springframework/spring-context-support
+  compile group: 'org.springframework', name: 'spring-context-support', version: '5.0.9.RELEASE'
+  // https://mvnrepository.com/artifact/org.springframework.security/spring-security-config
+  compile group: 'org.springframework.security', name: 'spring-security-config', version: '5.0.7.RELEASE'
 
 	 configurations {
       all*.exclude module : 'spring-boot-starter-logging'

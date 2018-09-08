@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
+
+	<changeSet author="aivan" id="13">
+		<!-- ACLs -->
+		<createTable tableName="acl_sid">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true"
+					primaryKeyName="pk-acl_sid-id" nullable="false" />
+			</column>
+			<column name="principal" type="boolean">
+				<constraints nullable="false" />
+			</column>
+			<column name="sid" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addUniqueConstraint tableName="acl_sid"
+			columnNames="sid,principal" constraintName="unique_uk_1" />
+
+		<createTable tableName="acl_class">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true"
+					primaryKeyName="pk-acl_class-id" nullable="false" />
+			</column>
+			<column name="class" type="varchar(100)">
+				<constraints unique="true" nullable="false" />
+			</column>
+		</createTable>
+		<addUniqueConstraint tableName="acl_class"
+			columnNames="class" constraintName="unique_uk_2" />
+
+		<createTable tableName="acl_object_identity">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true"
+					primaryKeyName="pk-acl_object_identity-id" nullable="false" />
+			</column>
+			<column name="object_id_class" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="object_id_identity" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="parent_object" type="bigint" />
+			<column name="owner_sid" type="bigint" />
+			<column name="entries_inheriting" type="boolean">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addUniqueConstraint
+			tableName="acl_object_identity"
+			columnNames="object_id_class,object_id_identity" />
+		<addForeignKeyConstraint
+			baseTableName="acl_object_identity" baseColumnNames="parent_object"
+			constraintName="foreign_fk_1"
+			referencedTableName="acl_object_identity" referencedColumnNames="id" />
+		<addForeignKeyConstraint
+			baseTableName="acl_object_identity" baseColumnNames="object_id_class"
+			constraintName="foreign_fk_2" referencedTableName="acl_class"
+			referencedColumnNames="id" />
+		<addForeignKeyConstraint
+			baseTableName="acl_object_identity" baseColumnNames="owner_sid"
+			constraintName="foreign_fk_3" referencedTableName="acl_sid"
+			referencedColumnNames="id" />
+
+		<createTable tableName="acl_entry">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true"
+					primaryKeyName="pk-acl_enry-id" nullable="false" />
+			</column>
+			<column name="acl_object_identity" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="ace_order" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="sid" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="mask" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="granting" type="boolean">
+				<constraints nullable="false" />
+			</column>
+			<column name="audit_success" type="boolean">
+				<constraints nullable="false" />
+			</column>
+			<column name="audit_failure" type="boolean">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addUniqueConstraint tableName="acl_entry"
+			columnNames="acl_object_identity,ace_order" />
+		<addForeignKeyConstraint
+			baseTableName="acl_entry" baseColumnNames="acl_object_identity"
+			constraintName="foreign_fk_4"
+			referencedTableName="acl_object_identity" referencedColumnNames="id" />
+		<addForeignKeyConstraint
+			baseTableName="acl_entry" baseColumnNames="sid"
+			constraintName="foreign_fk_5" referencedTableName="acl_sid"
+			referencedColumnNames="id" />
+	</changeSet>
+</databaseChangeLog>
+ 

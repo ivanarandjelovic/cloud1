@@ -8,5 +8,6 @@
 
 	<include file="db/00001_objekti.xml" />
 	<include file="db/00002_objekti.xml" />
+	<include file="db/00003_objekti.xml" />
 
 </databaseChangeLog>
