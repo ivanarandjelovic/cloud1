@@ -44,7 +44,7 @@ public class Service1Application {
 	}
 
 	@RequestMapping("/")
-	@PreAuthorize("#oauth2.hasScope('test_scope') and hasAuthority('USER')")
+	@PreAuthorize("#oauth2.hasScope('web_scope') and hasAuthority('USER')")
 	public String service1() {
 		log.info("service1 method called 2!");
 		return "Hello from " + appName + "! It's exactly " + new Date();
