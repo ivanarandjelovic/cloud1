@@ -20,12 +20,7 @@ export default (state = initialState, action) => {
         requested: false
       }
     case FIRMA_CLEAR_ALL:
-      return {
-        ...state,
-        firme: null,
-        requested: false
-      }
-
+      return initialState
     default:
       return state
   }
