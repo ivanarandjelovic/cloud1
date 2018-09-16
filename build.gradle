@@ -6,6 +6,8 @@
  */
 
 task buildDockerImages {
+  group "docker"
+  description "Build docker images for all sub-projects explicitely listed in root build.gradle file (for this task)"
 	dependsOn ":front:docker"
 	dependsOn ":service1:docker"
 	dependsOn ":serviceA:docker"
