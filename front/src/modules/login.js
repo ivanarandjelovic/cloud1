@@ -1,3 +1,5 @@
+import { FIRMA_CLEAR_ALL } from './firma.js'
+
 export const LOGIN_REQUESTED = 'login/LOGIN_REQUESTED'
 export const LOGIN_SUCCESS = 'login/LOGIN_SUCCESS'
 export const LOGIN_FAILED = 'login/LOGIN_FAILED'
@@ -52,7 +54,10 @@ export const handleLogout = values => {
   return dispatch => {
     dispatch({
       type: LOGOUT_REQUESTED
-    })
+    });
+    dispatch({
+      type: FIRMA_CLEAR_ALL
+    });
   }
 }
 

@@ -1,5 +1,6 @@
 export const FIRMA_REQUESTED = 'firma/REQUESTED'
 export const FIRMA_ALL = 'firma/ALL'
+export const FIRMA_CLEAR_ALL = 'firma/CLEAR_ALL'
 
 const initialState = {
   requested: false
@@ -12,11 +13,16 @@ export default (state = initialState, action) => {
         ...state,
         requested: true
       }
-
     case FIRMA_ALL:
       return {
         ...state,
         firme: action.content,
+        requested: false
+      }
+    case FIRMA_CLEAR_ALL:
+      return {
+        ...state,
+        firme: null,
         requested: false
       }
 
