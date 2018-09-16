@@ -19,7 +19,7 @@ const Home = props => (
     <p>Message from backend: {props.messageContent}</p>
 
     <p>
-	    <button onClick={() => props.getMessage(props.access_token)}>Get Message</button>
+	    <button onClick={() => props.getMessage(props.access_token)}>Get Message</button> (only for "aivan" user who has role "USER")
     </p>
 
     <p>
