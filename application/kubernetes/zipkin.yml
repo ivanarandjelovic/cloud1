@@ -38,13 +38,13 @@ spec:
         image: openzipkin/zipkin
         ports:
         - containerPort: 9411
-#        resources:
-#          limits:
-#            memory: 200Mi
-#            cpu: 500m
-#          requests:
-#            memory: 100Mi
+        resources:
+          requests:
+            memory: 100Mi
 #            cpu: 100m
+          limits:
+            memory: 600Mi
+#            cpu: 500m
 #        env:
 #        - name: JAVA_OPTS
 #          value: "-Dlogging.level.zipkin=DEBUG -Dlogging.level.zipkin2=DEBUG"

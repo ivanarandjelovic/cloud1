@@ -59,13 +59,13 @@ spec:
         args:
         - -f
         - /usr/share/logstash/pipeline/logstash.conf
-#        resources:
-#          limits:
-#            memory: 2Gi
-#            cpu: 1000m
-#          requests:
-#            memory: 2Gi
+        resources:
+          requests:
+            memory: 300Mi
 #            cpu: 200m
+          limits:
+            memory: 800Mi
+#            cpu: 1000m
       volumes:
       - name: pipeline
         configMap:

@@ -38,11 +38,11 @@ spec:
         image: ivanarandjelovic/auth-server:v0.0.5-SNAPSHOT
         ports:
         - containerPort: 8085
-#        resources:
-#          limits:
-#            memory: 500Mi
-#            cpu: 500m
-#          requests:
-#            memory: 1Gi
+        resources:
+          requests:
+            memory: 300Mi
 #            cpu: 1000m
+          limits:
+            memory: 1000Mi
+#            cpu: 500m
 

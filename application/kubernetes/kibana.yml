@@ -36,13 +36,13 @@ spec:
           value: elasticsearch-cloud1 # name of the Elasticsearch cluster defined in the first part
         - name: ELASTICSEARCH_URL
           value: http://elasticsearch:9200
-#        resources:
-#          limits:
-#            memory: 512Mi
-#            cpu: 500m
-#          requests:
-#            memory: 1Gi
+        resources:
+          requests:
+            memory: 50Mi
 #            cpu: 100m
+          limits:
+            memory: 200Mi
+#            cpu: 500m
         ports:
         - containerPort: 5601
           name: http
