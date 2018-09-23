@@ -36,6 +36,9 @@ spec:
       containers:
       - name: zipkin
         image: openzipkin/zipkin
+#        env:
+#        - name: JAVA_OPTS
+#          value: -Xmx32m
         ports:
         - containerPort: 9411
         resources:
