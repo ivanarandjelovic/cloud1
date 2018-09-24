@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testapp-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: testapp-pods
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: testapp-pods
+    spec:
+      containers:
+      - name: testapp
+        image: ivanarandjelovic/testapp:v0.0.5-SNAPSHOT
+        resources:
+          requests:
+            memory: 150Mi
+#            cpu: 1000m
+          limits:
+            memory: 300Mi
+#            cpu: 500m
+

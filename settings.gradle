@@ -9,5 +9,5 @@
 
 rootProject.name = 'cloud1'
 
-include 'application', 'service1', 'serviceA', 'web', 'front', 'auth-server', 'objekti', 'service_common'
+include 'application', 'service1', 'serviceA', 'web', 'front', 'auth-server', 'objekti', 'service_common', 'testapp'
 

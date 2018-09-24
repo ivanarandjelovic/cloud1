@@ -1,0 +1,53 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+}
+
+plugins {
+  id "com.palantir.docker" version "0.20.1"
+  id "com.palantir.docker-run" version "0.20.1"
+}
+
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'eclipse'
+
+group = 'org.aivan.cloud1'
+version = '0.0.5-SNAPSHOT'
+sourceCompatibility = 1.8
+
+mainClassName = "org.aivan.cloud1.testapp.TestApp"
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName,
+                   'Implementation-Version': version
+    }
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+}
+
+docker {
+    dependsOn jar
+    name "ivanarandjelovic/${jar.baseName}:v${version}"
+    files jar.archivePath
+    buildArgs(['JAR_FILE': "${jar.archiveName}"])
+}
+
+dockerRun {
+    name "${jar.baseName}"
+    image "ivanarandjelovic/${jar.baseName}:v${version}"
+//    volumes 'hostvolume': '/containervolume'
+    ports '8094:8094'
+    daemonize true
+//    env 'MYVAR1': 'MYVALUE1', 'MYVAR2': 'MYVALUE2'
+//    command 'sleep', '100'
+//    network "spring"
+}
+
